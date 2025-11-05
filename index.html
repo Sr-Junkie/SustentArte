@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SustentArte - Início</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    height: 100vh;
+    width: 100vw;
+    background-color: #b8f5b0; /* Fundo verde claro */
+    border: 10px solid #2e7d32; /* Moldura */
+    border-radius: 15px;
+    box-shadow: inset 0 0 15px rgba(0, 100, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .logo {
+    width: 280px; /* 🔹 Mudar tamanho da imagem aqui */
+    max-width: 70vw;
+    animation: pulsar 2s ease-in-out infinite;
+  }
+
+  @keyframes pulsar {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 0.9;
+    }
+  }
+
+  .creditos {
+    position: absolute;
+    bottom: 10px;
+    font-size: 0.9em;
+    color: #1b5e20;
+  }
+</style>
+</head>
+<body>
+  <img src="Logo.png" alt="Logo SustentArte" class="logo" />
+
+  <div class="creditos">© SustentArte 2025</div>
+
+  <script>
+    // 🔹 Mudar tempo da animação aqui (em milissegundos)
+    const tempoAnimacao = 5000; 
+
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, tempoAnimacao);
+  </script>
+</body>
+</html>
