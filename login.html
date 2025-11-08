@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>LogiN - SustentArte</title>
+<title>Login - SustentArte</title>
 <style>
   hr.divider {
   margin: 18px 0;
@@ -330,7 +330,7 @@
       return;
     }
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: "https://sr-junkie.github.io/SustentArte/#/nova-senha.html"
+      redirectTo: "https://sr-junkie.github.io/SustentArte/nova-senha.html"
     });
 
     if(error){
