@@ -5,7 +5,114 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>LogiN - SustentArte</title>
 <style>
-  /* --- teu CSS continua igual --- */
+  :root{
+    --mascote-h: 150px;
+    --gap-top: 16px;
+  }
+
+  *{box-sizing: border-box;margin:0;padding:0}
+
+  body{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    font-family: "Poppins", sans-serif;
+    background: #b8f5b0;
+    border: 10px solid #2e7d32;
+    border-radius: 15px;
+    box-shadow: inset 0 0 15px rgba(0,100,0,0.35);
+    overflow:auto;
+    position: relative;
+  }
+
+  .recycle-icon{position:absolute;width:80px;opacity:.07;pointer-events:none}
+  .recycle1{top:8%;left:8%}
+  .recycle2{bottom:10%;right:8%}
+  .recycle3{top:50%;right:28%}
+
+  .login-container{width:100%;max-width:440px;padding:12px;position:relative;z-index:1;flex:1;display:flex;align-items:center;justify-content:center;}
+
+  .login-box{
+    position:relative;
+    background:#dff5cf;
+    border:6px solid #2e7d32;
+    border-radius:20px;
+    box-shadow:0 8px 30px rgba(0,0,0,.18);
+    padding: calc(var(--mascote-h) / 2 + var(--gap-top)) 28px 28px;
+    text-align:center;
+    color:#1b5e20;
+  }
+
+  .login-box .mascote{
+    position:absolute;
+    top:-36px;
+    left:50%;
+    transform: translate(-50%, -50%);
+    width: var(--mascote-h);
+    height: auto;
+    z-index:2;
+    pointer-events:none;
+  }
+
+  .login-box h2{font-size:1.6rem;margin-bottom:18px}
+  .input-group{text-align:left;margin-bottom:16px}
+  .input-group label{display:block;font-weight:700;color:#1b5e20;margin-bottom:6px;font-size:.95rem}
+  .input-group input{
+    width:100%;padding:12px;border-radius:10px;border:2px solid #81c784;background:#fff;color:#2e7d32;font-size:1rem;
+  }
+  .input-group input:focus{outline:none;box-shadow:0 0 6px rgba(67,160,71,.28);border-color:#43a047}
+
+  .senha-wrapper{position:relative}
+  .icone-olho{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:26px;cursor:pointer}
+
+  button[type="submit"]{
+    width:100%;padding:14px;border-radius:10px;border:none;background:#43a047;color:#fff;font-weight:700;font-size:1rem;cursor:pointer;
+  }
+  button[type="submit"]:hover{background:#2e7d32}
+
+  footer{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    padding:10px 20px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  footer img{
+    height:40px;
+    width:auto;
+  }
+
+  @media (max-width: 900px){
+    :root{ --mascote-h: 140px }
+    .login-box{ padding-left:22px;padding-right:22px }
+  }
+
+  @media (max-width: 600px){
+    :root{ --mascote-h: 120px }
+    .login-box{ padding-left:18px;padding-right:18px }
+    .login-box h2{font-size:1.35rem}
+    .icone-olho{width:22px}
+  }
+
+  @media (max-width: 400px){
+    :root{ --mascote-h: 100px; --gap-top: 12px }
+    .login-box{ padding-left:14px;padding-right:14px }
+    .login-box h2{font-size:1.15rem}
+  }
+
+  @media (max-height: 600px){
+    :root{ --mascote-h: 90px }
+    .login-box{ padding-top: calc(var(--mascote-h) / 2 + var(--gap-top)) }
+  }
+
+  input, button{min-height:44px}
 </style>
 </head>
 <body>
@@ -20,10 +127,10 @@
 
       <h2>Login</h2>
 
-      <form id="login-form">
+      <form onsubmit="event.preventDefault(); handleLogin();">
         <div class="input-group">
-          <label for="user">Email</label>
-          <input id="user" type="email" placeholder="Digite seu email">
+          <label for="user">Usuário</label>
+          <input id="user" type="text" placeholder="Digite seu usuário">
         </div>
 
         <div class="input-group">
@@ -54,30 +161,43 @@
     toggleSenha.src = isPassword ? 'olhoAberto.png' : 'olhoFechado.png';
     mascote.src = isPassword ? 'mascote.png' : 'mascoteBlind.png';
   });
-</script>
 
+  function handleLogin(){
+    const user = document.getElementById('user').value.trim();
+    const pass = senhaInput.value.trim();
+
+    if(user === 'admin' && pass === 'admin'){
+      window.location.href = 'home.html';
+    } else {
+      alert('Usuário ou senha não existentes.');
+    }
+  }
+</script>
+  
+  // INTEGRAÇÃO COM BANCO
 <script type="module">
+  // Importa a lib do Supabase
   import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-  // Chaves do teu projeto
+  // Coloca tuas chaves aqui:
   const supabaseUrl = 'https://afobiejrsjolurxeqnuz.supabase.co';
   const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmb2JpZWpyc2pvbHVyeGVxbnV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1NTkxMDAsImV4cCI6MjA3ODEzNTEwMH0.dhHgjXnOzZE5f3HDBzgBjuZss33LrGPuM1ckKeG6-bw';
   const supabase = createClient(supabaseUrl, supabaseKey);
 
-  const form = document.getElementById('login-form');
+  const form = document.querySelector('form');
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = document.getElementById('user').value.trim();
-    const password = document.getElementById('senha').value.trim();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-    // Login via Supabase
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
     if (error) {
       alert('Usuário ou senha incorretos!');
       console.error(error);
-      // login alternativo opcional:
-      // if (email === 'admin@sustentarte.com' && password === 'admin') window.location.href = 'home.html';
     } else {
       alert('Login realizado com sucesso!');
       window.location.href = 'home.html';
