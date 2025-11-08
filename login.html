@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Login - SustentArte</title>
+<title>LogiN - SustentArte</title>
 <style>
   :root{
     --mascote-h: 150px;
@@ -129,8 +129,8 @@
 
       <form onsubmit="event.preventDefault(); handleLogin();">
         <div class="input-group">
-          <label for="user">Usuário</label>
-          <input id="user" type="text" placeholder="Digite seu usuário">
+          <label for="email">E-mail</label>
+          <input id="email" type="email" placeholder="Digite seu e-mail">
         </div>
 
         <div class="input-group">
@@ -150,11 +150,22 @@
     <img src="logo-crescimento.png" alt="Logo Crescimento">
   </footer>
 
-<script>
+<script type="module">
+  // Importa o cliente do Supabase
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+  // 🔑 Coloca aqui as tuas credenciais
+  const supabaseUrl = 'https://afobiejrsjolurxeqnuz.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmb2JpZWpyc2pvbHVyeGVxbnV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1NTkxMDAsImV4cCI6MjA3ODEzNTEwMH0.dhHgjXnOzZE5f3HDBzgBjuZss33LrGPuM1ckKeG6-bw';
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  // Referências aos elementos
   const senhaInput = document.getElementById('senha');
   const toggleSenha = document.getElementById('toggleSenha');
   const mascote = document.getElementById('mascote');
+  const form = document.querySelector('form');
 
+  // Alternar visibilidade da senha
   toggleSenha.addEventListener('click', () => {
     const isPassword = senhaInput.type === 'password';
     senhaInput.type = isPassword ? 'text' : 'password';
@@ -162,46 +173,32 @@
     mascote.src = isPassword ? 'mascote.png' : 'mascoteBlind.png';
   });
 
-  function handleLogin(){
-    const user = document.getElementById('user').value.trim();
-    const pass = senhaInput.value.trim();
-
-    if(user === 'admin' && pass === 'admin'){
-      window.location.href = 'home.html';
-    } else {
-      alert('Usuário ou senha não existentes.');
-    }
-  }
-</script>
-  
-  // INTEGRAÇÃO COM BANCO
-<script type="module">
-  // Importa a lib do Supabase
-  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-
-  // Coloca tuas chaves aqui:
-  const supabaseUrl = 'https://afobiejrsjolurxeqnuz.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmb2JpZWpyc2pvbHVyeGVxbnV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1NTkxMDAsImV4cCI6MjA3ODEzNTEwMH0.dhHgjXnOzZE5f3HDBzgBjuZss33LrGPuM1ckKeG6-bw';
-  const supabase = createClient(supabaseUrl, supabaseKey);
-
-  const form = document.querySelector('form');
+  // Função de login via Supabase
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
 
+    const email = document.getElementById('email').value.trim();
+    const password = senhaInput.value.trim();
+
+    if (!email || !password) {
+      alert('Por favor, preencha todos os campos.');
+      return;
+    }
+
+    // 🔐 Login com Supabase
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
     if (error) {
-      alert('Usuário ou senha incorretos!');
       console.error(error);
-    } else {
-      alert('Login realizado com sucesso!');
-      window.location.href = 'home.html';
+      alert('Usuário ou senha incorretos.');
+      return;
     }
+
+    alert('Login realizado com sucesso!');
+    window.location.href = 'home.html';
   });
 </script>
 
