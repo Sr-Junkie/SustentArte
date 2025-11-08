@@ -136,13 +136,12 @@
 
   p.voltar a:hover { text-decoration: underline; }
 
-  /* 🔔 Caixa flutuante de erro */
-  .mensagem-erro {
+  /* 🔔 Caixa flutuante de mensagens */
+  .mensagem {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(46, 125, 50, 0.9);
     color: #fff;
     padding: 20px 30px;
     border-radius: 12px;
@@ -155,10 +154,13 @@
     z-index: 999;
   }
 
-  .mensagem-erro.show {
+  .mensagem.show {
     opacity: 1;
     pointer-events: auto;
   }
+
+  .erro { background: rgba(183, 28, 28, 0.9); } /* vermelho */
+  .sucesso { background: rgba(46, 125, 50, 0.9); } /* verde */
 
   @media (max-width:900px) {
     :root { --mascote-h:140px; }
@@ -219,7 +221,9 @@
     </div>
   </div>
 
-  <div id="erro" class="mensagem-erro"></div>
+  <!-- caixas flutuantes -->
+  <div id="msgErro" class="mensagem erro"></div>
+  <div id="msgSucesso" class="mensagem sucesso"></div>
 
   <footer>
     <img src="logo-crescimento.png" alt="Logo Crescimento">
@@ -238,16 +242,15 @@
   const toggleConfirmar = document.getElementById('toggleConfirmar');
   const mascote = document.getElementById('mascote');
   const form = document.getElementById('register-form');
-  const msgErro = document.getElementById('erro');
+  const msgErro = document.getElementById('msgErro');
+  const msgSucesso = document.getElementById('msgSucesso');
 
-  // Função que exibe mensagem flutuante
-  function mostrarErro(texto) {
-    msgErro.textContent = texto;
-    msgErro.classList.add('show');
-    setTimeout(() => msgErro.classList.remove('show'), 3000);
+  function mostrarMensagem(elemento, texto) {
+    elemento.textContent = texto;
+    elemento.classList.add('show');
+    setTimeout(() => elemento.classList.remove('show'), 3000);
   }
 
-  // Sincroniza ambos os ícones de olho
   function alternarVisibilidade() {
     const isPassword = senhaInput.type === 'password';
     const novoTipo = isPassword ? 'text' : 'password';
@@ -271,12 +274,12 @@
     const confirmar = confirmarInput.value.trim();
 
     if (!email || !password) {
-      mostrarErro('Preencha todos os campos.');
+      mostrarMensagem(msgErro, 'Preencha todos os campos.');
       return;
     }
 
     if (password !== confirmar) {
-      mostrarErro('As senhas não coincidem.');
+      mostrarMensagem(msgErro, 'As senhas não coincidem.');
       return;
     }
 
@@ -284,12 +287,12 @@
 
     if (error) {
       console.error(error);
-      mostrarErro('Erro ao cadastrar: ' + error.message);
+      mostrarMensagem(msgErro, 'Erro ao cadastrar: ' + error.message);
       return;
     }
 
-    alert('Conta criada com sucesso! Agora faça login.');
-    window.location.href = 'login.html';
+    mostrarMensagem(msgSucesso, 'Conta criada com sucesso! Redirecionando...');
+    setTimeout(() => window.location.href = 'login.html', 2500);
   });
 </script>
 </body>
