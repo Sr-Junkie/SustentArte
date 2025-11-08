@@ -5,6 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>LogiN - SustentArte</title>
 <style>
+  hr.divider {
+  margin: 18px 0;
+  border: none;
+  height: 2px;
+  background-color: #2e7d32; /* verde escuro da paleta */
+  opacity: 0.6;
+  border-radius: 2px;
+}
+
+.btn-cadastrar {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 2px solid #2e7d32;
+  background: #dff5cf;
+  color: #2e7d32;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cadastrar:hover {
+  background: #c8ebbc;
+  transform: scale(1.02);
+}
+
   :root{
     --mascote-h: 150px;
     --gap-top: 16px;
@@ -141,7 +168,14 @@
           </div>
         </div>
 
-        <button type="submit">Entrar</button>
+       <button type="submit">Entrar</button>
+
+<hr class="divider">
+
+<button type="button" class="btn-cadastrar" onclick="window.location.href='cadastro.html'">
+  Cadastrar
+</button>
+
       </form>
     </div>
   </div>
