@@ -136,13 +136,21 @@
           <input id="email" type="email" placeholder="Digite seu e-mail" required>
         </div>
 
-        <div class="input-group">
-          <label for="senha">Senha</label>
-          <div class="senha-wrapper">
-            <input id="senha" type="password" placeholder="Crie uma senha" required>
-            <img id="toggleSenha" class="icone-olho" src="olhoFechado.png" alt="Mostrar senha">
-          </div>
-        </div>
+    <div class="input-group">
+      <label for="senha">Senha</label>
+      <div class="senha-wrapper">
+        <input id="senha" type="password" placeholder="Crie uma senha" required>
+        <img id="toggleSenha" class="icone-olho" src="olhoFechado.png" alt="Mostrar senha">
+      </div>
+    </div>
+    
+    <div class="input-group">
+      <label for="confirmar">Confirmar Senha</label>
+      <input id="confirmar" type="password" placeholder="Repita sua senha" required>
+    </div>
+    
+    <button type="submit">Cadastrar</button>
+
 
         <button type="submit">Cadastrar</button>
       </form>
@@ -179,6 +187,13 @@
     e.preventDefault();
     const email = document.getElementById('email').value.trim();
     const password = senhaInput.value.trim();
+    const confirmar = document.getElementById('confirmar').value.trim();
+    
+    if (password !== confirmar) {
+      alert('As senhas não coincidem. Tente novamente.');
+      return;
+    }
+    
 
     if (!email || !password) {
       alert('Preencha todos os campos.');
